@@ -452,8 +452,111 @@ button{cursor:pointer;background:none;border:none;padding:0;}
 }
 
 /* ── 핸드폰: 하루씩 보기 ───────────────────────────── */
-.daytabs{display:none;}
 .pickbar{display:none;}
+
+/* ── 요일 탭 (핸드폰 주간뷰 + 하루계획 탭 공용) ─────── */
+.daytabs{
+  display:none;gap:2px;padding:8px 8px 9px;
+  border-bottom:1px solid var(--line);background:var(--paper-2);
+}
+.daytabs.show{display:flex;}
+.daytab{
+  flex:1;min-width:0;padding:6px 2px 5px;border-radius:9px;
+  display:flex;flex-direction:column;align-items:center;gap:1px;
+  border:1px solid transparent;
+}
+.daytab .n{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;line-height:1.2;}
+.daytab .dt{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--muted);line-height:1.2;}
+.daytab .dot{width:4px;height:4px;border-radius:99px;background:var(--accent);opacity:0;margin-top:2px;}
+.daytab.has .dot{opacity:1;}
+.daytab.sat .n{color:var(--c-class);}
+.daytab.sun .n{color:var(--c-people);}
+.daytab.today{background:var(--accent-soft);}
+.daytab.today .dt{color:var(--accent-ink);font-weight:600;}
+.daytab.on{background:var(--accent);border-color:var(--accent);}
+.daytab.on .n, .daytab.on .dt{color:var(--paper);}
+.daytab.on .dot{background:var(--paper);}
+
+/* ── 주간 / 하루 탭 ────────────────────────────────── */
+.tabs{display:flex;gap:2px;background:var(--paper-2);padding:3px;border-radius:10px;}
+.tab{
+  padding:5px 14px;border-radius:8px;font-size:13px;color:var(--muted);
+  font-family:"Gothic A1",sans-serif;font-weight:500;letter-spacing:-.01em;
+  transition:background .14s,color .14s;
+}
+.tab:hover{color:var(--ink);}
+.tab.on{
+  background:var(--paper);color:var(--ink);font-weight:700;
+  box-shadow:0 1px 2px rgba(20,32,30,.09);
+}
+
+/* ── 하루 계획 표 ──────────────────────────────────── */
+.dhead, .drow{
+  display:grid;
+  grid-template-columns:86px minmax(150px, 0.85fr) minmax(0, 1.45fr);
+}
+.dhead{background:var(--paper-2);border-bottom:1px solid var(--line-strong);}
+.dhead span{
+  padding:7px 10px;border-left:1px solid var(--line);
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;
+  letter-spacing:.13em;color:var(--muted);
+}
+.dhead span:first-child{border-left:none;text-align:center;}
+.drow{border-top:1px solid var(--line);min-height:92px;}
+.drow.gsep{border-top:1px solid var(--line-strong);}
+
+.dnum{
+  background:var(--paper-2);border-right:1px solid var(--line);
+  padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:3px;
+}
+.dnum .n{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:600;line-height:1;color:var(--ink-2);}
+.dnum .t{
+  width:100%;text-align:center;background:transparent;border:none;
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);padding:1px 0;
+}
+.dnum .t:focus{outline:none;background:var(--paper);border-radius:5px;color:var(--ink);}
+
+.dblock{
+  padding:7px;display:flex;flex-direction:column;gap:5px;
+  border-right:1px solid var(--line);
+}
+.dblock.dragover{background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--accent);}
+.dblock.target{box-shadow:inset 0 0 0 1.5px var(--accent);}
+
+.ddetail{padding:8px 10px 9px 12px;display:flex;flex-direction:column;gap:1px;}
+.ddetail.dragover{background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--accent);}
+.ddetail.target{box-shadow:inset 0 0 0 1.5px var(--accent);}
+.dt-row{display:flex;align-items:center;gap:7px;padding:2px 4px 2px 0;border-radius:7px;}
+.dt-row:hover{background:var(--paper-2);}
+.dt-dash{
+  flex:none;width:14px;text-align:center;color:var(--line-strong);
+  font-family:"IBM Plex Mono",monospace;font-size:12px;line-height:1;
+}
+.dt-dash:hover{color:var(--accent);}
+.dt-row.done .dt-dash{color:var(--accent);}
+.dt-text{
+  flex:1;min-width:0;background:transparent;border:none;padding:1px 0;
+  font-size:13px;color:var(--ink);
+}
+.dt-text:focus{outline:none;}
+.dt-row.done .dt-text{text-decoration:line-through;text-decoration-thickness:1.5px;color:var(--muted);}
+.dt-row.star .dt-text{font-weight:600;color:var(--c-job);}
+.dt-star, .dt-x{
+  flex:none;width:20px;height:20px;display:grid;place-items:center;border-radius:5px;
+  color:var(--line-strong);font-size:11px;line-height:1;opacity:0;transition:opacity .14s,color .14s;
+}
+.dt-row:hover .dt-star, .dt-row:hover .dt-x, .dt-star:focus-visible, .dt-x:focus-visible{opacity:1;}
+.dt-row.star .dt-star{opacity:1;color:var(--c-job);}
+.dt-x:hover{color:var(--danger);}
+.dt-link{
+  flex:none;font-family:"IBM Plex Mono",monospace;font-size:9px;
+  color:var(--muted);background:var(--paper-2);border-radius:4px;padding:1px 4px;
+}
+.dadd{
+  margin-top:4px;text-align:left;font-size:12.5px;color:var(--muted);
+  padding:3px 6px;border-radius:7px;align-self:flex-start;
+}
+.dadd:hover{background:var(--paper-2);color:var(--accent);}
 
 @media (max-width:600px){
   .shell{padding:14px 12px 88px;}
@@ -479,26 +582,13 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   .grid-head{padding:12px 14px 10px;}
   .hint{display:none;}
 
-  .daytabs{
-    display:flex;gap:2px;padding:8px 8px 9px;
-    border-bottom:1px solid var(--line);background:var(--paper-2);
-  }
-  .daytab{
-    flex:1;min-width:0;padding:6px 2px 5px;border-radius:9px;
-    display:flex;flex-direction:column;align-items:center;gap:1px;
-    border:1px solid transparent;
-  }
-  .daytab .n{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;line-height:1.2;}
-  .daytab .dt{font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--muted);line-height:1.2;}
-  .daytab .dot{width:4px;height:4px;border-radius:99px;background:var(--accent);opacity:0;margin-top:2px;}
-  .daytab.has .dot{opacity:1;}
-  .daytab.sat .n{color:var(--c-class);}
-  .daytab.sun .n{color:var(--c-people);}
-  .daytab.today{background:var(--accent-soft);}
-  .daytab.today .dt{color:var(--accent-ink);font-weight:600;}
-  .daytab.on{background:var(--accent);border-color:var(--accent);}
-  .daytab.on .n, .daytab.on .dt{color:var(--paper);}
-  .daytab.on .dot{background:var(--paper);}
+  /* 하루 계획: 좁은 화면에서는 세부 할 일을 아래 줄로 */
+  .dhead{display:none;}
+  .drow{grid-template-columns:56px minmax(0,1fr);}
+  .dnum{padding:8px 4px;}
+  .dnum .n{font-size:16px;}
+  .ddetail{grid-column:1 / -1;border-top:1px dashed var(--line);padding:7px 10px 9px 12px;}
+  .dblock{border-right:none;}
 
   .grid{min-width:0;grid-template-columns:58px minmax(0,1fr);}
   .rowlab{padding:8px 4px;}
@@ -590,13 +680,17 @@ button{cursor:pointer;background:none;border:none;padding:0;}
 
     <section class="gridwrap" aria-label="주간 블럭 표">
       <div class="grid-head">
-        <h2>주간 블럭</h2>
+        <div class="tabs" role="tablist" aria-label="보기 전환">
+          <button class="tab" id="tab-week" role="tab">주간계획</button>
+          <button class="tab" id="tab-day" role="tab">하루계획</button>
+        </div>
         <p class="hint" id="hint"></p>
       </div>
       <div class="daytabs" id="daytabs" role="tablist" aria-label="요일 고르기"></div>
-      <div class="scroller">
+      <div class="scroller" id="scroller">
         <div class="grid" id="grid"></div>
       </div>
+      <div class="daily" id="daily" hidden></div>
     </section>
   </div>
 
@@ -657,6 +751,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     return ymd(mondayOf(t)) === cursor ? ((t.getDay() + 6) % 7) : 0;
   }
   let dayCursor = defaultDay();
+  let view = "week";   /* week = 주간 표, day = 하루 계획 */
 
   /* ── 상태 ──────────────────────────────────── */
   const seed = () => ({
@@ -732,7 +827,8 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   }
 
   function ensureWeek(k){
-    if(!state.weeks[k]) state.weeks[k] = {goal:"", cells:{}};
+    if(!state.weeks[k]) state.weeks[k] = {goal:"", cells:{}, details:{}};
+    if(!state.weeks[k].details) state.weeks[k].details = {};
     return state.weeks[k];
   }
   const cells = () => (state.weeks[cursor] ? state.weeks[cursor].cells : {});
@@ -750,17 +846,38 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     }
     return null;
   }
-  /* 지금 보고 있는 주의 배치 */
+  /* 세부 할 일 (하루계획 오른쪽 칸) — 주 데이터 안에 함께 저장 */
+  const details = () => (state.weeks[cursor] && state.weeks[cursor].details) || {};
+  const detailsOf = key => details()[key] || [];
+  function pushDetail(key, item){
+    const d = ensureWeek(cursor).details;
+    (d[key] = d[key] || []).push(item);
+  }
+  function removeDetail(id){
+    const d = details();
+    for(const k in d){
+      const i = d[k].findIndex(x => x.id === id);
+      if(i > -1){ d[k].splice(i,1); if(!d[k].length) delete d[k]; return true; }
+    }
+    return false;
+  }
+  /* 블럭 카드든 세부 할 일이든 id 하나로 지운다 */
+  function removeAnywhere(id){ removeItem(id); removeDetail(id); }
+
+  /* 지금 보고 있는 주의 배치 — 블럭 카드 + 세부 할 일 둘 다 */
   function placementsOf(taskId){
-    const c = cells(), out = [];
-    for(const k in c){
-      for(const it of c[k]){
-        if(it.taskId === taskId){
+    const out = [];
+    const scan = (store, kind) => {
+      for(const k in store){
+        for(const it of store[k]){
+          if(it.taskId !== taskId) continue;
           const p = k.split("-").map(Number);
-          out.push({day:p[0], block:p[1], item:it});
+          out.push({day:p[0], block:p[1], item:it, kind:kind});
         }
       }
-    }
+    };
+    scan(cells(), "block");
+    scan(details(), "detail");
     out.sort((a,b) => a.day - b.day || a.block - b.block);
     return out;
   }
@@ -769,13 +886,15 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     const out = [];
     for(const wk in state.weeks){
       if(wk === cursor) continue;
-      const c = state.weeks[wk].cells || {};
-      for(const k in c){
-        for(const it of c[k]){
-          if(it.taskId === taskId){
-            const d = addDays(parseYmd(wk), Number(k.split("-")[0]));
-            const lbl = (d.getMonth()+1) + "/" + d.getDate();
-            if(out.indexOf(lbl) === -1) out.push(lbl);
+      const stores = [state.weeks[wk].cells || {}, state.weeks[wk].details || {}];
+      for(const c of stores){
+        for(const k in c){
+          for(const it of c[k]){
+            if(it.taskId === taskId){
+              const d = addDays(parseYmd(wk), Number(k.split("-")[0]));
+              const lbl = (d.getMonth()+1) + "/" + d.getDate();
+              if(out.indexOf(lbl) === -1) out.push(lbl);
+            }
           }
         }
       }
@@ -928,7 +1047,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
       if(e.key === "Backspace" && tx.value === "" && proj.tasks.length > 1){
         e.preventDefault();
         const i = proj.tasks.indexOf(t);
-        placementsOf(t.id).forEach(p => removeItem(p.item.id));
+        placementsOf(t.id).forEach(p => removeAnywhere(p.item.id));
         proj.tasks.splice(i,1);
         commit();
         const prev = proj.tasks[i-1] || proj.tasks[0];
@@ -939,9 +1058,13 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     tx.onblur  = () => { li.draggable = true; };
 
     const where = el("span","where");
+    const shown = {};
     placed.forEach(p => {
+      const lbl = DAYS[p.day] + (p.block + 1);
+      if(shown[lbl]) return;
+      shown[lbl] = 1;
       const b = document.createElement("i");
-      b.textContent = DAYS[p.day] + (p.block + 1);
+      b.textContent = lbl;
       where.append(b);
     });
     otherWeeksOf(t.id).forEach(lbl => {
@@ -960,7 +1083,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     del.title = "항목 삭제";
     del.onclick = e => {
       e.stopPropagation();
-      placementsOf(t.id).forEach(p => removeItem(p.item.id));
+      placementsOf(t.id).forEach(p => removeAnywhere(p.item.id));
       proj.tasks = proj.tasks.filter(x => x !== t);
       commit();
     };
@@ -992,9 +1115,14 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     }
   }
   function setHint(){
-    document.getElementById("hint").innerHTML = selected
-      ? '고른 항목을 놓을 <b>블럭을 클릭</b>하세요.'
-      : '왼쪽 항목을 <b>끌어다</b> 놓거나, 빈 칸을 <b>클릭</b>해 바로 쓰세요.';
+    const h = document.getElementById("hint");
+    if(selected){
+      h.innerHTML = '고른 항목을 놓을 <b>칸을 클릭</b>하세요.';
+    }else if(view === "day"){
+      h.innerHTML = '왼쪽 항목을 <b>블럭</b>이나 <b>세부 할 일</b>로 끌어다 놓으세요.';
+    }else{
+      h.innerHTML = '왼쪽 항목을 <b>끌어다</b> 놓거나, 빈 칸을 <b>클릭</b>해 바로 쓰세요.';
+    }
   }
 
   function renderStats(){
@@ -1046,10 +1174,13 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   function renderDayTabs(mon, isToday){
     const box = document.getElementById("daytabs");
     box.textContent = "";
-    const c = cells();
+    box.classList.add("show");
+    const cMap = cells(), dMap = details();
     DAYS.forEach((name, i) => {
       let has = false;
-      for(let b=0; b<6; b++) if((c[i + "-" + b] || []).length){ has = true; break; }
+      for(let b=0; b<6; b++){
+        if((cMap[i + "-" + b] || []).length || (dMap[i + "-" + b] || []).length){ has = true; break; }
+      }
       const date = addDays(mon, i);
       const t = el("button","daytab"
         + (isToday[i] ? " today" : "")
@@ -1062,7 +1193,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
       const dt = el("span","dt"); dt.textContent = (date.getMonth()+1) + "/" + date.getDate();
       const dot = el("span","dot");
       t.append(n, dt, dot);
-      t.onclick = () => { dayCursor = i; renderGrid(); };
+      t.onclick = () => { dayCursor = i; if(view === "day") renderDaily(); else renderGrid(); };
       box.append(t);
     });
   }
@@ -1081,7 +1212,9 @@ button{cursor:pointer;background:none;border:none;padding:0;}
 
   /* PC: 한 주 전체 */
   function renderWholeWeek(mon, isToday){
-    document.getElementById("daytabs").textContent = "";
+    const tabs = document.getElementById("daytabs");
+    tabs.textContent = "";
+    tabs.classList.remove("show");
 
     const corner = el("div","gh");
     const cl = el("span","d");
@@ -1105,11 +1238,13 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     }
   }
 
-  function cellEl(d, b, today){
+  function cellEl(d, b, today, mode){
     const key = d + "-" + b;
-    const c = el("div","cell"
-      + (d>=5 ? " weekend" : "") + (today ? " today" : "")
-      + (b===2 || b===4 ? " gsep" : "") + (selected ? " target" : ""));
+    const c = mode === "day"
+      ? el("div","dblock" + (selected ? " target" : ""))
+      : el("div","cell"
+          + (d>=5 ? " weekend" : "") + (today ? " today" : "")
+          + (b===2 || b===4 ? " gsep" : "") + (selected ? " target" : ""));
     c.dataset.key = key;
     c.setAttribute("role","group");
     c.setAttribute("aria-label", DAYS[d] + "요일 " + (b+1) + "블럭");
@@ -1227,8 +1362,155 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     return chip;
   }
 
+  /* ── 하루 계획 ─────────────────────────────── */
+  const daily = document.getElementById("daily");
+
+  function renderDaily(){
+    const mon = parseYmd(cursor);
+    const todayKey = ymd(new Date());
+    const isToday = [];
+    for(let i=0; i<7; i++) isToday.push(ymd(addDays(mon, i)) === todayKey);
+    if(dayCursor < 0 || dayCursor > 6) dayCursor = 0;
+    renderDayTabs(mon, isToday);
+
+    daily.textContent = "";
+    const head = el("div","dhead");
+    ["BLOCK", "블럭 — 주간계획과 연동", "세부 할 일"].forEach(t => {
+      const sp = document.createElement("span");
+      sp.textContent = t;
+      head.append(sp);
+    });
+    daily.append(head);
+
+    for(let b=0; b<6; b++){
+      const row = el("div","drow" + (b===2 || b===4 ? " gsep" : ""));
+      const num = el("div","dnum");
+      const n = el("span","n"); n.textContent = b+1;
+      const t = document.createElement("input");
+      t.className = "t"; t.value = state.times[b] || "";
+      t.placeholder = "시간";
+      t.setAttribute("aria-label", (b+1) + "블럭 시간대");
+      t.oninput = () => { state.times[b] = t.value; save(); };
+      num.append(n, t);
+      row.append(num, cellEl(dayCursor, b, isToday[dayCursor], "day"), detailBox(b));
+      daily.append(row);
+    }
+    document.getElementById("m-filled").textContent = filledCount();
+    renderPickbar();
+  }
+
+  function detailBox(b){
+    const key = dayCursor + "-" + b;
+    const box = el("div","ddetail");
+    detailsOf(key).forEach(item => box.append(detailRow(item, key)));
+
+    const add = el("button","dadd");
+    add.textContent = "+ 세부 할 일";
+    add.onclick = () => {
+      const item = {id:uid("s"), taskId:null, text:"", done:false, star:false};
+      pushDetail(key, item);
+      commit(); focusDetail(item.id);
+    };
+    box.append(add);
+
+    box.addEventListener("dragover", e => {
+      e.preventDefault(); e.dataTransfer.dropEffect = "copy";
+      box.classList.add("dragover");
+    });
+    box.addEventListener("dragleave", () => box.classList.remove("dragover"));
+    box.addEventListener("drop", e => {
+      box.classList.remove("dragover");
+      let data; try{ data = JSON.parse(e.dataTransfer.getData("text/plain")); }catch(err){ return; }
+      if(!data) return;
+      e.preventDefault();
+      if(data.kind === "task"){
+        pushDetail(key, {id:uid("s"), taskId:data.id, text:null, done:false, star:false});
+      }else if(data.kind === "item"){
+        /* 블럭 카드를 세부 할 일로 내린다 */
+        const moved = takeItem(data.id);
+        if(moved) pushDetail(key, {id:uid("s"), taskId:moved.taskId, text:moved.text, done:false, star:false});
+      }
+      commit();
+    });
+    box.addEventListener("click", e => {
+      if(!selected || e.target.closest(".dt-row") || e.target.closest(".dadd")) return;
+      pushDetail(key, {id:uid("s"), taskId:selected, text:null, done:false, star:false});
+      selected = null; setHint(); commit();
+    });
+    return box;
+  }
+
+  function detailRow(item, key){
+    const linked = item.taskId ? findTask(item.taskId) : null;
+    if(item.taskId && !linked){ removeDetail(item.id); return document.createDocumentFragment(); }
+
+    const row = el("div","dt-row" + (item.done ? " done" : "") + (item.star ? " star" : ""));
+
+    const dash = el("button","dt-dash");
+    dash.textContent = item.done ? "✓" : "–";
+    dash.title = item.done ? "완료 해제" : "완료 표시";
+    dash.setAttribute("aria-pressed", String(!!item.done));
+    dash.onclick = () => { item.done = !item.done; commit(); };
+
+    const tx = document.createElement("input");
+    tx.className = "dt-text";
+    tx.dataset.detailInput = item.id;
+    tx.value = linked ? linked.task.text : (item.text || "");
+    tx.placeholder = "무엇을 할까요?";
+    tx.setAttribute("aria-label","세부 할 일");
+    tx.oninput = () => {
+      if(linked){ linked.task.text = tx.value; save(); renderDump(); }
+      else { item.text = tx.value; save(); }
+    };
+    tx.onkeydown = e => {
+      if(e.key === "Enter"){
+        e.preventDefault();
+        const list = detailsOf(key);
+        const nt = {id:uid("s"), taskId:null, text:"", done:false, star:false};
+        list.splice(list.indexOf(item) + 1, 0, nt);
+        commit(); focusDetail(nt.id);
+      }
+    };
+    tx.onblur = () => { if(!linked && !tx.value.trim()){ removeDetail(item.id); commit(); } };
+
+    const star = el("button","dt-star");
+    star.textContent = "★";
+    star.title = "강조";
+    star.onclick = () => { item.star = !item.star; commit(); };
+
+    const x = el("button","dt-x");
+    x.textContent = "✕";
+    x.title = "지우기";
+    x.onclick = () => { removeDetail(item.id); commit(); };
+
+    row.append(dash, tx);
+    if(linked){
+      const lk = el("span","dt-link");
+      lk.textContent = linked.proj.name || "프로젝트";
+      lk.title = "쏟아내기에서 가져온 항목";
+      row.append(lk);
+    }
+    row.append(star, x);
+    return row;
+  }
+
+  function focusDetail(id){
+    requestAnimationFrame(() => {
+      const inp = daily.querySelector('[data-detail-input="' + id + '"]');
+      if(inp) inp.focus();
+    });
+  }
+
+  function renderTabs(){
+    document.getElementById("tab-week").classList.toggle("on", view === "week");
+    document.getElementById("tab-day").classList.toggle("on", view === "day");
+    document.getElementById("tab-week").setAttribute("aria-selected", String(view === "week"));
+    document.getElementById("tab-day").setAttribute("aria-selected", String(view === "day"));
+  }
+
   function markTargets(on){
-    grid.querySelectorAll(".cell").forEach(c => c.classList.toggle("target", on || !!selected));
+    document.querySelectorAll(".cell, .dblock, .ddetail")
+      .forEach(c => c.classList.toggle("target", on || !!selected));
   }
 
   /* 왼쪽 패널로 되돌려 놓기 = 배치 취소 */
@@ -1258,11 +1540,32 @@ button{cursor:pointer;background:none;border:none;padding:0;}
 
   /* ── 공통 ──────────────────────────────────── */
   function el(tag, cls){ const n = document.createElement(tag); if(cls) n.className = cls; return n; }
-  function render(){ renderHeader(); renderDump(); renderGrid(); }
+  function render(){
+    renderHeader(); renderTabs(); renderDump();
+    const scroller = document.getElementById("scroller");
+    if(view === "day"){
+      scroller.hidden = true; daily.hidden = false;
+      grid.textContent = "";
+      renderDaily();
+    }else{
+      daily.hidden = true; scroller.hidden = false;
+      daily.textContent = "";
+      renderGrid();
+    }
+  }
   function commit(){ save(); render(); }
 
   const goal = document.getElementById("goal");
   goal.oninput = () => { ensureWeek(cursor).goal = goal.value; save(); };
+
+  function setView(v){
+    if(view === v) return;
+    view = v; selected = null;
+    if(v === "day") dayCursor = defaultDay();
+    setHint(); render();
+  }
+  document.getElementById("tab-week").onclick = () => setView("week");
+  document.getElementById("tab-day").onclick = () => setView("day");
 
   document.getElementById("prev").onclick = () => goWeek(-1);
   document.getElementById("next").onclick = () => goWeek(1);
@@ -1275,7 +1578,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   function onViewportChange(){
     if(isNarrow() === wasNarrow) return;
     wasNarrow = isNarrow();
-    dayCursor = defaultDay();
+    if(view === "week") dayCursor = defaultDay();
     render();
   }
   mq.addEventListener("change", onViewportChange);
@@ -1292,7 +1595,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     });
   };
   document.getElementById("btn-clear-grid").onclick = () => {
-    if(state.weeks[cursor]) state.weeks[cursor].cells = {};
+    if(state.weeks[cursor]){ state.weeks[cursor].cells = {}; state.weeks[cursor].details = {}; }
     selected = null; commit();
   };
   document.getElementById("btn-reset").onclick = () => {
