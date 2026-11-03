@@ -542,6 +542,17 @@ button{cursor:pointer;background:none;border:none;padding:0;}
 }
 .dblock.dragover{background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--accent);}
 .dblock.target{box-shadow:inset 0 0 0 1.5px var(--accent);}
+.dblock:hover .cell-add{color:var(--line-strong);}
+/* Keyword 칸의 블럭은 카드 없이 글자만 — 분류 색으로 */
+.dblock .chip{border:none;background:transparent;padding:2px 2px 2px 4px;}
+.dblock .chip-proj{display:none;}
+.dblock .chip-top{align-items:center;}
+.dblock .chip-title{font-size:15.5px;font-weight:700;line-height:1.4;color:var(--c);letter-spacing:-.01em;}
+.dblock .chip[data-cat="none"] .chip-title{color:var(--ink);}
+.dblock .chip-title:focus{background:var(--paper-2);box-shadow:none;}
+.dblock .chip-x{opacity:0;transition:opacity .14s;}
+.dblock .chip:hover .chip-x, .dblock .chip-x:focus-visible{opacity:1;}
+@media (hover: none){ .dblock .chip-x{opacity:1;} }
 
 .ddetail{padding:9px 10px 9px 12px;display:flex;flex-direction:column;gap:2px;border-right:1px solid var(--line);}
 .ddetail.dragover{background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--accent);}
