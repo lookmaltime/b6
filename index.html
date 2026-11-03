@@ -1135,13 +1135,12 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     tx.setAttribute("aria-label","할 일 이름");
     tx.oninput = () => { t.text = tx.value; save(); renderGrid(); };
     tx.onkeydown = e => {
-      if(e.key === "Enter"){
-        e.preventDefault();
+      onEnter(e, () => {
         const nt = {id:uid("t"), text:"", done:false};
         proj.tasks.splice(proj.tasks.indexOf(t)+1, 0, nt);
         commit(); focusTask(nt.id);
-      }
-      if(e.key === "Backspace" && tx.value === "" && proj.tasks.length > 1){
+      });
+      if(e.key === "Backspace" && !composing(e) && tx.value === "" && proj.tasks.length > 1){
         e.preventDefault();
         const i = proj.tasks.indexOf(t);
         placementsOf(t.id).forEach(p => removeAnywhere(p.item.id));
@@ -1415,7 +1414,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
       if(linked){ linked.task.text = title.value; save(); renderDump(); }
       else { item.text = title.value; save(); }
     };
-    title.onkeydown = e => { if(e.key === "Enter"){ e.preventDefault(); title.blur(); } };
+    title.onkeydown = e => onEnter(e, () => title.blur());
     title.onfocus = () => { chip.draggable = false; };
     title.onblur = () => {
       chip.draggable = true;
@@ -1634,9 +1633,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
       if(linked){ linked.task.text = tx.value; save(); renderDump(); }
       else { item.text = tx.value; save(); }
     };
-    tx.onkeydown = e => {
-      if(e.key !== "Enter") return;
-      e.preventDefault();
+    tx.onkeydown = e => onEnter(e, () => {
       const next = row.nextElementSibling && row.nextElementSibling.querySelector(".dt-text");
       if(next){ next.focus(); return; }
       if(ghost) return;
@@ -1644,7 +1641,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
       const nt = {id:uid("s"), taskId:null, text:"", done:false};
       list.splice(list.indexOf(item) + 1, 0, nt);
       commit(); focusDetail(nt.id);
-    };
+    });
     tx.onblur = () => {
       if(ghost || linked || tx.value.trim()) return;
       /* 빈 줄은 정리 — 다른 칸으로 옮겨 가는 포커스를 다시 그리기로 날리지 않도록 잠깐 미룬다 */
@@ -1715,6 +1712,22 @@ button{cursor:pointer;background:none;border:none;padding:0;}
 
   /* ── 공통 ──────────────────────────────────── */
   function el(tag, cls){ const n = document.createElement(tag); if(cls) n.className = cls; return n; }
+  /* 한글 입력 중 Enter — 조합이 끝난 뒤에 처리해야 마지막 글자가 다음 줄에 한 번 더 찍히지 않는다 */
+  const composing = e => e.isComposing || e.keyCode === 229;
+  function onEnter(e, fn){
+    if(e.key !== "Enter") return;
+    if(!composing(e)){ e.preventDefault(); fn(); return; }
+    const t = e.target;
+    let done = false;
+    const run = () => {
+      if(done) return;
+      done = true;
+      t.removeEventListener("compositionend", run);
+      setTimeout(fn, 0);
+    };
+    t.addEventListener("compositionend", run);
+    setTimeout(run, 40);   // 사파리처럼 조합이 이미 끝난 채로 Enter가 오는 경우
+  }
   function render(){
     renderHeader(); renderTabs(); renderDump();
     const scroller = document.getElementById("scroller");
