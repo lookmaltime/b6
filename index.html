@@ -493,31 +493,48 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   box-shadow:0 1px 2px rgba(20,32,30,.09);
 }
 
-/* ── 하루 계획 표 ──────────────────────────────────── */
+/* ── 하루 계획 표 (Keyword · Plan · Review) ──────────── */
+.dtop{
+  display:flex;align-items:center;gap:8px 20px;flex-wrap:wrap;
+  padding:14px 18px 12px;border-bottom:1px solid var(--line-strong);
+}
+.dtop-date{
+  font-family:"IBM Plex Mono",monospace;font-size:30px;font-weight:400;line-height:1;
+  color:var(--ink);letter-spacing:-.02em;font-variant-numeric:tabular-nums;
+}
+.dtop-days{display:flex;gap:2px;}
+.dtop-day{
+  width:27px;height:27px;border-radius:99px;display:grid;place-items:center;
+  font-size:12.5px;color:var(--muted);transition:background .14s,color .14s;
+}
+.dtop-day:hover{background:var(--paper-2);color:var(--ink);}
+.dtop-day.today{color:var(--accent-ink);font-weight:700;}
+.dtop-day.on{background:var(--accent);color:var(--paper);font-weight:700;}
+.dtop-looks{margin-left:auto;display:flex;align-items:center;gap:5px;font-size:12.5px;color:var(--ink-2);}
+.dtop-looks span{margin-right:3px;}
+.look{
+  width:17px;height:17px;border-radius:5px;border:1.5px solid var(--line-strong);
+  background:var(--paper);display:grid;place-items:center;color:transparent;font-size:10px;
+  transition:background .14s,border-color .14s,color .14s;
+}
+.look:hover{border-color:var(--accent);}
+.look.on{background:var(--accent);border-color:var(--accent);color:var(--paper);}
+
 .dhead, .drow{
   display:grid;
-  grid-template-columns:86px minmax(150px, 0.85fr) minmax(0, 1.45fr);
+  grid-template-columns:56px minmax(130px, .75fr) minmax(0, 1.2fr) minmax(0, 1.3fr);
 }
-.dhead{background:var(--paper-2);border-bottom:1px solid var(--line-strong);}
+.dhead{border-bottom:1px solid var(--line-strong);}
 .dhead span{
-  padding:7px 10px;border-left:1px solid var(--line);
-  font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;
-  letter-spacing:.13em;color:var(--muted);
+  padding:7px 10px;border-left:1px solid var(--line);text-align:center;
+  font-size:12.5px;font-weight:500;color:var(--ink-2);
 }
-.dhead span:first-child{border-left:none;text-align:center;}
-.drow{border-top:1px solid var(--line);min-height:92px;}
-.drow.gsep{border-top:1px solid var(--line-strong);}
+.dhead span:first-child{border-left:none;}
+.drow{border-top:1px solid var(--line);min-height:100px;}
+.dhead + .drow{border-top:none;}
 
-.dnum{
-  background:var(--paper-2);border-right:1px solid var(--line);
-  padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:3px;
-}
-.dnum .n{font-family:"IBM Plex Mono",monospace;font-size:19px;font-weight:600;line-height:1;color:var(--ink-2);}
-.dnum .t{
-  width:100%;text-align:center;background:transparent;border:none;
-  font-family:"IBM Plex Mono",monospace;font-size:10.5px;color:var(--muted);padding:1px 0;
-}
-.dnum .t:focus{outline:none;background:var(--paper);border-radius:5px;color:var(--ink);}
+.dnum{border-right:1px solid var(--line);display:grid;place-items:center;}
+.dnum .n{font-family:"IBM Plex Mono",monospace;font-size:15px;font-weight:500;color:var(--ink-2);}
 
 .dblock{
   padding:7px;display:flex;flex-direction:column;gap:5px;
@@ -526,40 +543,52 @@ button{cursor:pointer;background:none;border:none;padding:0;}
 .dblock.dragover{background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--accent);}
 .dblock.target{box-shadow:inset 0 0 0 1.5px var(--accent);}
 
-.ddetail{padding:8px 10px 9px 12px;display:flex;flex-direction:column;gap:1px;}
+.ddetail{padding:9px 10px 9px 12px;display:flex;flex-direction:column;gap:2px;border-right:1px solid var(--line);}
 .ddetail.dragover{background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--accent);}
 .ddetail.target{box-shadow:inset 0 0 0 1.5px var(--accent);}
-.dt-row{display:flex;align-items:center;gap:7px;padding:2px 4px 2px 0;border-radius:7px;}
+.dt-row{display:flex;align-items:center;gap:8px;padding:2px 4px 2px 0;border-radius:7px;}
 .dt-row:hover{background:var(--paper-2);}
-.dt-dash{
-  flex:none;width:14px;text-align:center;color:var(--line-strong);
-  font-family:"IBM Plex Mono",monospace;font-size:12px;line-height:1;
+.dt-check{
+  flex:none;width:15px;height:15px;border-radius:4px;border:1.5px solid var(--line-strong);
+  background:var(--paper);display:grid;place-items:center;color:transparent;font-size:9px;
+  transition:background .14s,border-color .14s,color .14s;
 }
-.dt-dash:hover{color:var(--accent);}
-.dt-row.done .dt-dash{color:var(--accent);}
+.dt-check:hover{border-color:var(--accent);}
+.dt-row.done .dt-check{background:var(--accent);border-color:var(--accent);color:var(--paper);}
+.dt-row.ghost .dt-check{cursor:text;}
+.dt-row.ghost .dt-check:hover{border-color:var(--line-strong);}
 .dt-text{
   flex:1;min-width:0;background:transparent;border:none;padding:1px 0;
   font-size:13px;color:var(--ink);
 }
 .dt-text:focus{outline:none;}
+.dt-text::placeholder{color:transparent;}
+.dt-text:focus::placeholder{color:var(--muted);}
 .dt-row.done .dt-text{text-decoration:line-through;text-decoration-thickness:1.5px;color:var(--muted);}
-.dt-row.star .dt-text{font-weight:600;color:var(--c-job);}
-.dt-star, .dt-x{
+.dt-x{
   flex:none;width:20px;height:20px;display:grid;place-items:center;border-radius:5px;
   color:var(--line-strong);font-size:11px;line-height:1;opacity:0;transition:opacity .14s,color .14s;
 }
-.dt-row:hover .dt-star, .dt-row:hover .dt-x, .dt-star:focus-visible, .dt-x:focus-visible{opacity:1;}
-.dt-row.star .dt-star{opacity:1;color:var(--c-job);}
+.dt-row:hover .dt-x, .dt-x:focus-visible{opacity:1;}
 .dt-x:hover{color:var(--danger);}
 .dt-link{
   flex:none;font-family:"IBM Plex Mono",monospace;font-size:9px;
   color:var(--muted);background:var(--paper-2);border-radius:4px;padding:1px 4px;
 }
-.dadd{
-  margin-top:4px;text-align:left;font-size:12.5px;color:var(--muted);
-  padding:3px 6px;border-radius:7px;align-self:flex-start;
+
+.dreview{display:flex;}
+.dreview textarea{
+  flex:1;width:100%;min-height:100px;resize:none;border:none;background:transparent;
+  padding:9px 12px;font-size:13px;line-height:1.65;color:var(--ink);
 }
-.dadd:hover{background:var(--paper-2);color:var(--accent);}
+.dreview textarea:focus{outline:none;background:var(--paper-2);}
+.dreview textarea::placeholder{color:transparent;}
+.dreview textarea:focus::placeholder{color:var(--muted);}
+
+@media (hover: none){
+  .dt-x{opacity:1;}
+  .dt-check, .look{width:20px;height:20px;font-size:12px;}
+}
 
 @media (max-width:600px){
   .shell{padding:14px 12px 88px;}
@@ -585,13 +614,21 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   .grid-head{padding:12px 14px 10px;}
   .hint{display:none;}
 
-  /* 하루 계획: 좁은 화면에서는 세부 할 일을 아래 줄로 */
+  /* 하루 계획: 좁은 화면에서는 Plan · Review를 아래 줄로 */
+  .dtop{padding:12px 12px 10px;}
+  .dtop-date{font-size:26px;}
+  .dtop-looks{margin-left:0;width:100%;}
   .dhead{display:none;}
-  .drow{grid-template-columns:56px minmax(0,1fr);}
-  .dnum{padding:8px 4px;}
-  .dnum .n{font-size:16px;}
-  .ddetail{grid-column:1 / -1;border-top:1px dashed var(--line);padding:7px 10px 9px 12px;}
+  .drow{grid-template-columns:44px minmax(0,1fr);min-height:0;}
   .dblock{border-right:none;}
+  .ddetail, .dreview{grid-column:1 / -1;border-right:none;border-top:1px dashed var(--line);}
+  .dreview{flex-direction:column;}
+  .ddetail::before, .dreview::before{
+    content:attr(data-label);font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+    letter-spacing:.12em;color:var(--muted);
+  }
+  .dreview::before{padding:7px 12px 0;}
+  .dreview textarea{min-height:64px;padding-top:4px;}
 
   .grid{min-width:0;grid-template-columns:58px minmax(0,1fr);}
   .rowlab{padding:8px 4px;}
@@ -864,7 +901,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     }
     return null;
   }
-  /* 세부 할 일 (하루계획 오른쪽 칸) — 주 데이터 안에 함께 저장 */
+  /* Plan 할 일 (하루계획) — 주 데이터 안에 함께 저장 */
   const details = () => (state.weeks[cursor] && state.weeks[cursor].details) || {};
   const detailsOf = key => details()[key] || [];
   function pushDetail(key, item){
@@ -1142,7 +1179,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     if(selected){
       h.innerHTML = '고른 항목을 놓을 <b>칸을 클릭</b>하세요.';
     }else if(view === "day"){
-      h.innerHTML = '왼쪽 항목을 <b>블럭</b>이나 <b>세부 할 일</b>로 끌어다 놓으세요.';
+      h.innerHTML = '왼쪽 항목을 <b>Keyword</b>나 <b>Plan</b> 칸으로 끌어다 놓으세요.';
     }else{
       h.innerHTML = '왼쪽 항목을 <b>끌어다</b> 놓거나, 빈 칸을 <b>클릭</b>해 바로 쓰세요.';
     }
@@ -1383,11 +1420,13 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     const isToday = [];
     for(let i=0; i<7; i++) isToday.push(ymd(addDays(mon, i)) === todayKey);
     if(dayCursor < 0 || dayCursor > 6) dayCursor = 0;
-    renderDayTabs(mon, isToday);
+    document.getElementById("daytabs").classList.remove("show");   // 요일은 표 머리에서 고른다
 
     daily.textContent = "";
+    daily.append(dayTop(mon, isToday));
+
     const head = el("div","dhead");
-    ["BLOCK", "블럭 — 주간계획과 연동", "세부 할 일"].forEach(t => {
+    ["", "Keyword", "Plan", "Review"].forEach(t => {
       const sp = document.createElement("span");
       sp.textContent = t;
       head.append(sp);
@@ -1395,35 +1434,95 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     daily.append(head);
 
     for(let b=0; b<6; b++){
-      const row = el("div","drow" + (b===2 || b===4 ? " gsep" : ""));
+      const row = el("div","drow");
       const num = el("div","dnum");
       const n = el("span","n"); n.textContent = b+1;
-      const t = document.createElement("input");
-      t.className = "t"; t.value = state.times[b] || "";
-      t.placeholder = "시간";
-      t.setAttribute("aria-label", (b+1) + "블럭 시간대");
-      t.oninput = () => { state.times[b] = t.value; save(); };
-      num.append(n, t);
-      row.append(num, cellEl(dayCursor, b, isToday[dayCursor], "day"), detailBox(b));
+      num.append(n);
+      row.append(num, cellEl(dayCursor, b, isToday[dayCursor], "day"), detailBox(b), reviewBox(b));
       daily.append(row);
     }
     document.getElementById("m-filled").textContent = filledCount();
     renderPickbar();
   }
 
+  /* 날짜 · 요일 고르기 · 하루 3번 플래너 보기 */
+  function dayTop(mon, isToday){
+    const top = el("div","dtop");
+    const date = addDays(mon, dayCursor);
+    const dd = el("div","dtop-date");
+    dd.textContent = String(date.getDate()).padStart(2,"0");
+    dd.title = (date.getMonth()+1) + "월 " + date.getDate() + "일";
+
+    const days = el("div","dtop-days");
+    days.setAttribute("role","tablist");
+    days.setAttribute("aria-label","요일 고르기");
+    DAYS.forEach((name, i) => {
+      const b = el("button","dtop-day" + (isToday[i] ? " today" : "") + (i === dayCursor ? " on" : ""));
+      b.textContent = name;
+      b.setAttribute("role","tab");
+      b.setAttribute("aria-selected", String(i === dayCursor));
+      const d = addDays(mon, i);
+      b.title = (d.getMonth()+1) + "/" + d.getDate();
+      b.onclick = () => { dayCursor = i; renderDaily(); };
+      days.append(b);
+    });
+
+    const looks = el("div","dtop-looks");
+    const lb = document.createElement("span"); lb.textContent = "하루 3번 플래너 보기";
+    looks.append(lb);
+    const w = state.weeks[cursor];
+    const got = (w && w.looks && w.looks[dayCursor]) || [];
+    for(let i=0; i<3; i++){
+      const c = el("button","look" + (got[i] ? " on" : ""));
+      c.textContent = "✓";
+      c.setAttribute("aria-pressed", String(!!got[i]));
+      c.setAttribute("aria-label", "플래너 보기 " + (i+1) + "번째");
+      c.onclick = () => {
+        const wk = ensureWeek(cursor);
+        const l = (wk.looks = wk.looks || {});
+        const arr = (l[dayCursor] = l[dayCursor] || [false,false,false]);
+        arr[i] = !arr[i];
+        c.classList.toggle("on", arr[i]);
+        c.setAttribute("aria-pressed", String(arr[i]));
+        save();
+      };
+      looks.append(c);
+    }
+    top.append(dd, days, looks);
+    return top;
+  }
+
+  /* Review — 블럭마다 자유롭게 쓰는 칸 */
+  function reviewBox(b){
+    const key = dayCursor + "-" + b;
+    const box = el("div","dreview");
+    box.dataset.label = "REVIEW";
+    const w = state.weeks[cursor];
+    const ta = document.createElement("textarea");
+    ta.value = (w && w.reviews && w.reviews[key]) || "";
+    ta.placeholder = "어떻게 됐나요?";
+    ta.setAttribute("aria-label", (b+1) + "블럭 리뷰");
+    ta.oninput = () => {
+      const wk = ensureWeek(cursor);
+      const r = (wk.reviews = wk.reviews || {});
+      if(ta.value) r[key] = ta.value; else delete r[key];
+      save();
+    };
+    box.append(ta);
+    return box;
+  }
+
+  /* Plan — 체크박스 할 일. 비어 있어도 3줄은 늘 보인다 */
+  const PLAN_LINES = 3;
   function detailBox(b){
     const key = dayCursor + "-" + b;
     const box = el("div","ddetail");
-    detailsOf(key).forEach(item => box.append(detailRow(item, key)));
-
-    const add = el("button","dadd");
-    add.textContent = "+ 세부 할 일";
-    add.onclick = () => {
-      const item = {id:uid("s"), taskId:null, text:"", done:false, star:false};
-      pushDetail(key, item);
-      commit(); focusDetail(item.id);
-    };
-    box.append(add);
+    box.dataset.label = "PLAN";
+    const list = detailsOf(key);
+    list.forEach(item => box.append(detailRow(item, key)));
+    for(let i=list.length; i<PLAN_LINES; i++){
+      box.append(detailRow({id:uid("s"), taskId:null, text:"", done:false}, key, true));
+    }
 
     box.addEventListener("dragover", e => {
       e.preventDefault(); e.dataTransfer.dropEffect = "copy";
@@ -1436,73 +1535,81 @@ button{cursor:pointer;background:none;border:none;padding:0;}
       if(!data) return;
       e.preventDefault();
       if(data.kind === "task"){
-        pushDetail(key, {id:uid("s"), taskId:data.id, text:null, done:false, star:false});
+        pushDetail(key, {id:uid("s"), taskId:data.id, text:null, done:false});
       }else if(data.kind === "item"){
-        /* 블럭 카드를 세부 할 일로 내린다 */
+        /* 블럭 카드를 Plan 할 일로 내린다 */
         const moved = takeItem(data.id);
-        if(moved) pushDetail(key, {id:uid("s"), taskId:moved.taskId, text:moved.text, done:false, star:false});
+        if(moved) pushDetail(key, {id:uid("s"), taskId:moved.taskId, text:moved.text, done:false});
       }
       commit();
     });
     box.addEventListener("click", e => {
-      if(!selected || e.target.closest(".dt-row") || e.target.closest(".dadd")) return;
-      pushDetail(key, {id:uid("s"), taskId:selected, text:null, done:false, star:false});
+      if(!selected || e.target.closest(".dt-row:not(.ghost)")) return;
+      pushDetail(key, {id:uid("s"), taskId:selected, text:null, done:false});
       selected = null; setHint(); commit();
     });
     return box;
   }
 
-  function detailRow(item, key){
+  /* ghost = 아직 저장되지 않은 빈 줄. 글자를 치는 순간 진짜 할 일이 된다 */
+  function detailRow(item, key, ghost){
     const linked = item.taskId ? findTask(item.taskId) : null;
     if(item.taskId && !linked){ removeDetail(item.id); return document.createDocumentFragment(); }
 
-    const row = el("div","dt-row" + (item.done ? " done" : "") + (item.star ? " star" : ""));
+    const row = el("div","dt-row" + (item.done ? " done" : "") + (ghost ? " ghost" : ""));
 
-    const dash = el("button","dt-dash");
-    dash.textContent = item.done ? "✓" : "–";
-    dash.title = item.done ? "완료 해제" : "완료 표시";
-    dash.setAttribute("aria-pressed", String(!!item.done));
-    dash.onclick = () => { item.done = !item.done; commit(); };
+    const ck = el("button","dt-check");
+    ck.textContent = "✓";
+    ck.title = item.done ? "완료 해제" : "완료 표시";
+    ck.setAttribute("aria-pressed", String(!!item.done));
+    ck.onclick = () => {
+      if(ghost){ tx.focus(); return; }
+      item.done = !item.done; commit();
+    };
 
     const tx = document.createElement("input");
     tx.className = "dt-text";
     tx.dataset.detailInput = item.id;
     tx.value = linked ? linked.task.text : (item.text || "");
-    tx.placeholder = "무엇을 할까요?";
-    tx.setAttribute("aria-label","세부 할 일");
+    tx.placeholder = "할 일";
+    tx.setAttribute("aria-label","계획");
     tx.oninput = () => {
+      if(ghost){ pushDetail(key, item); ghost = false; row.classList.remove("ghost"); }
       if(linked){ linked.task.text = tx.value; save(); renderDump(); }
       else { item.text = tx.value; save(); }
     };
     tx.onkeydown = e => {
-      if(e.key === "Enter"){
-        e.preventDefault();
-        const list = detailsOf(key);
-        const nt = {id:uid("s"), taskId:null, text:"", done:false, star:false};
-        list.splice(list.indexOf(item) + 1, 0, nt);
-        commit(); focusDetail(nt.id);
-      }
+      if(e.key !== "Enter") return;
+      e.preventDefault();
+      const next = row.nextElementSibling && row.nextElementSibling.querySelector(".dt-text");
+      if(next){ next.focus(); return; }
+      if(ghost) return;
+      const list = detailsOf(key);
+      const nt = {id:uid("s"), taskId:null, text:"", done:false};
+      list.splice(list.indexOf(item) + 1, 0, nt);
+      commit(); focusDetail(nt.id);
     };
-    tx.onblur = () => { if(!linked && !tx.value.trim()){ removeDetail(item.id); commit(); } };
+    tx.onblur = () => {
+      if(ghost || linked || tx.value.trim()) return;
+      /* 빈 줄은 정리 — 다른 칸으로 옮겨 가는 포커스를 다시 그리기로 날리지 않도록 잠깐 미룬다 */
+      removeDetail(item.id); save();
+      setTimeout(function(){ if(!daily.contains(document.activeElement)) render(); }, 0);
+    };
 
-    const star = el("button","dt-star");
-    star.textContent = "★";
-    star.title = "강조";
-    star.onclick = () => { item.star = !item.star; commit(); };
-
-    const x = el("button","dt-x");
-    x.textContent = "✕";
-    x.title = "지우기";
-    x.onclick = () => { removeDetail(item.id); commit(); };
-
-    row.append(dash, tx);
+    row.append(ck, tx);
     if(linked){
       const lk = el("span","dt-link");
       lk.textContent = linked.proj.name || "프로젝트";
       lk.title = "쏟아내기에서 가져온 항목";
       row.append(lk);
     }
-    row.append(star, x);
+    if(!ghost){
+      const x = el("button","dt-x");
+      x.textContent = "✕";
+      x.title = "지우기";
+      x.onclick = () => { removeDetail(item.id); commit(); };
+      row.append(x);
+    }
     return row;
   }
 
