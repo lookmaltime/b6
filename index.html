@@ -576,6 +576,13 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   color:var(--muted);background:var(--paper-2);border-radius:4px;padding:1px 4px;
 }
 
+.dadd{
+  margin-top:3px;align-self:flex-start;padding:2px 6px 2px 2px;border-radius:6px;
+  font-size:12px;color:var(--muted);opacity:.55;transition:opacity .14s,color .14s,background .14s;
+}
+.ddetail:hover .dadd, .dadd:focus-visible{opacity:1;}
+.dadd:hover{color:var(--accent);background:var(--paper-2);}
+
 .dreview{display:flex;}
 .dreview textarea{
   flex:1;width:100%;min-height:100px;resize:none;border:none;background:transparent;
@@ -588,6 +595,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
 @media (hover: none){
   .dt-x{opacity:1;}
   .dt-check, .look{width:20px;height:20px;font-size:12px;}
+  .dadd{opacity:1;}
 }
 
 @media (max-width:600px){
@@ -1523,6 +1531,23 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     for(let i=list.length; i<PLAN_LINES; i++){
       box.append(detailRow({id:uid("s"), taskId:null, text:"", done:false}, key, true));
     }
+    /* 3줄을 넘겨도 계속 추가할 수 있다 */
+    const add = el("button","dadd");
+    add.textContent = "+ 할 일 추가";
+    add.onclick = e => {
+      e.stopPropagation();
+      if(selected){
+        pushDetail(key, {id:uid("s"), taskId:selected, text:null, done:false});
+        selected = null; setHint(); commit(); return;
+      }
+      /* 비어 있는 줄이 있으면 새로 만들지 않고 그 줄로 */
+      const empty = [...box.querySelectorAll(".dt-text")].find(t => !t.value.trim());
+      if(empty){ empty.focus(); return; }
+      const item = {id:uid("s"), taskId:null, text:"", done:false};
+      pushDetail(key, item);
+      commit(); focusDetail(item.id);
+    };
+    box.append(add);
 
     box.addEventListener("dragover", e => {
       e.preventDefault(); e.dataTransfer.dropEffect = "copy";
@@ -1544,7 +1569,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
       commit();
     });
     box.addEventListener("click", e => {
-      if(!selected || e.target.closest(".dt-row:not(.ghost)")) return;
+      if(!selected || e.target.closest(".dt-row:not(.ghost)") || e.target.closest(".dadd")) return;
       pushDetail(key, {id:uid("s"), taskId:selected, text:null, done:false});
       selected = null; setHint(); commit();
     });
