@@ -227,6 +227,20 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   font-family:"Gothic A1",sans-serif;font-weight:700;font-size:14px;letter-spacing:-.01em;
 }
 .proj-name:focus{outline:none;background:var(--paper-2);border-radius:5px;}
+/* 프로젝트 분류 — 여기서 고른 색이 배치된 블럭에 그대로 칠해진다 */
+.proj-cat{
+  --c:var(--c-none);
+  flex:none;max-width:112px;appearance:none;-webkit-appearance:none;
+  border:1px solid color-mix(in srgb, var(--c) 45%, transparent);
+  background-color:color-mix(in srgb, var(--c) 12%, var(--paper));
+  border-radius:999px;padding:2px 18px 2px 8px;font-size:11px;font-weight:600;color:var(--c);
+  background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);
+  background-position:calc(100% - 10px) 9px, calc(100% - 6px) 9px;
+  background-size:4px 4px, 4px 4px;background-repeat:no-repeat;
+  cursor:pointer;text-overflow:ellipsis;
+}
+.proj-cat:hover{background-color:color-mix(in srgb, var(--c) 20%, var(--paper));}
+.proj-cat[data-cat="none"]{color:var(--muted);font-weight:500;}
 .proj-count{
   font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--muted);
   flex:none;padding-right:2px;
@@ -379,14 +393,14 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   display:flex;flex-direction:column;gap:3px;
 }
 .chip.dragging{opacity:.4;}
-.chip[data-cat="class"]{--c:var(--c-class);}
-.chip[data-cat="prac"]{--c:var(--c-prac);}
-.chip[data-cat="work"]{--c:var(--c-work);}
-.chip[data-cat="study"]{--c:var(--c-study);}
-.chip[data-cat="body"]{--c:var(--c-body);}
-.chip[data-cat="people"]{--c:var(--c-people);}
-.chip[data-cat="rest"]{--c:var(--c-rest);}
-.chip[data-cat="etc"]{--c:var(--c-etc);}
+:is(.chip,.proj-cat)[data-cat="class"]{--c:var(--c-class);}
+:is(.chip,.proj-cat)[data-cat="prac"]{--c:var(--c-prac);}
+:is(.chip,.proj-cat)[data-cat="work"]{--c:var(--c-work);}
+:is(.chip,.proj-cat)[data-cat="study"]{--c:var(--c-study);}
+:is(.chip,.proj-cat)[data-cat="body"]{--c:var(--c-body);}
+:is(.chip,.proj-cat)[data-cat="people"]{--c:var(--c-people);}
+:is(.chip,.proj-cat)[data-cat="rest"]{--c:var(--c-rest);}
+:is(.chip,.proj-cat)[data-cat="etc"]{--c:var(--c-etc);}
 .chip-top{display:flex;align-items:flex-start;gap:4px;}
 .chip-title{
   flex:1;min-width:0;background:transparent;border:none;padding:1px 2px;
@@ -403,16 +417,6 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   font-family:"IBM Plex Mono",monospace;font-size:9.5px;color:var(--muted);
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-left:2px;
 }
-.chip-cat{
-  width:100%;appearance:none;-webkit-appearance:none;
-  background:var(--paper);border:1px solid color-mix(in srgb, var(--c) 40%, transparent);
-  border-radius:6px;padding:2px 18px 2px 6px;font-size:11px;color:var(--c);font-weight:500;
-  background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);
-  background-position:calc(100% - 10px) 9px, calc(100% - 6px) 9px;
-  background-size:4px 4px, 4px 4px;background-repeat:no-repeat;
-  cursor:pointer;
-}
-.chip-cat:hover{background-color:color-mix(in srgb, var(--c) 10%, var(--paper));}
 
 .footnote{margin-top:14px;font-size:11.5px;color:var(--muted);text-align:center;line-height:1.7;}
 .footnote kbd{
@@ -430,7 +434,6 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   .chip{padding:5px 5px 6px 7px;}
   .chip-title{font-size:12px;}
   .chip-proj{font-size:9px;}
-  .chip-cat{font-size:10.5px;padding-right:16px;}
 }
 
 /* 아이패드 미니처럼 더 좁은 태블릿 */
@@ -448,7 +451,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   .check{width:20px;height:20px;font-size:12px;}
   .chip-x{width:24px;height:24px;font-size:15px;}
   .navbtn{width:36px;height:36px;}
-  .chip-cat{padding-top:4px;padding-bottom:4px;}
+  .proj-cat{padding-top:4px;padding-bottom:4px;}
 }
 
 /* ── 핸드폰: 하루씩 보기 ───────────────────────────── */
@@ -663,7 +666,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     <section class="panel" aria-label="생각 쏟아내기">
       <div class="panel-head">
         <h2>생각 쏟아내기</h2>
-        <p>머릿속에 있는 걸 전부 적고, 프로젝트 아래로 잘게 쪼개세요.</p>
+        <p>머릿속에 있는 걸 전부 적고, 프로젝트 아래로 잘게 쪼개세요. 프로젝트마다 분류를 고르면 블럭에 그 색이 칠해져요.</p>
       </div>
       <div class="stats">
         <div class="stat"><b id="s-total">0</b><span>할 일</span></div>
@@ -757,21 +760,21 @@ button{cursor:pointer;background:none;border:none;padding:0;}
   const seed = () => ({
     times: DEFAULT_TIMES.slice(),
     projects: [
-      {id:"p1", name:"성인간호학 과제", collapsed:false, tasks:[
+      {id:"p1", name:"성인간호학 과제", cat:"work", collapsed:false, tasks:[
         {id:"t1", text:"자료 조사", done:false},
         {id:"t2", text:"초안 쓰기", done:false},
         {id:"t3", text:"수정·제출", done:false}
       ]},
-      {id:"p2", name:"중간고사 준비", collapsed:false, tasks:[
+      {id:"p2", name:"중간고사 준비", cat:"study", collapsed:false, tasks:[
         {id:"t4", text:"병태생리 요약본 만들기", done:false},
         {id:"t5", text:"약리 암기카드 1회독", done:false},
         {id:"t6", text:"기출문제 풀기", done:false}
       ]},
-      {id:"p3", name:"실습 준비", collapsed:false, tasks:[
+      {id:"p3", name:"실습 준비", cat:"prac", collapsed:false, tasks:[
         {id:"t7", text:"유니폼 세탁", done:false},
         {id:"t8", text:"케이스 스터디 정리", done:false}
       ]},
-      {id:"p4", name:"나를 위한 시간", collapsed:false, tasks:[
+      {id:"p4", name:"나를 위한 시간", cat:"rest", collapsed:false, tasks:[
         {id:"t9", text:"헬스 3회 가기", done:false},
         {id:"t10", text:"엄마 생신 선물 고르기", done:false}
       ]}
@@ -824,6 +827,21 @@ button{cursor:pointer;background:none;border:none;padding:0;}
         it.cat = CAT_IDS.indexOf(v) > -1 ? v : "none";
       });
     }
+    /* 분류는 이제 프로젝트에 있다 — 예전에 블럭마다 고른 분류 중 가장 많이 쓴 것을 가져온다 */
+    (d.projects || []).forEach(function(p){
+      if(CAT_IDS.indexOf(p.cat) > -1) return;
+      const ids = {}, tally = {};
+      p.tasks.forEach(function(t){ ids[t.id] = 1; });
+      for(const wk in (d.weeks || {})){
+        const c = (d.weeks[wk] && d.weeks[wk].cells) || {};
+        for(const k in c) c[k].forEach(function(it){
+          if(ids[it.taskId] && it.cat && it.cat !== "none") tally[it.cat] = (tally[it.cat] || 0) + 1;
+        });
+      }
+      let best = "none", n = 0;
+      for(const k in tally) if(tally[k] > n){ best = k; n = tally[k]; }
+      p.cat = best;
+    });
   }
 
   function ensureWeek(k){
@@ -930,16 +948,8 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     const c = ensureWeek(cursor).cells;
     (c[key] = c[key] || []).push(item);
   }
-  function lastCatOf(taskId){
-    const c = cells();
-    for(const k in c){
-      const hit = c[k].find(x => x.taskId === taskId);
-      if(hit) return hit.cat;
-    }
-    return null;
-  }
   function place(taskId, key){
-    push(key, {id:uid("i"), taskId:taskId, text:null, cat: lastCatOf(taskId) || "none"});
+    push(key, {id:uid("i"), taskId:taskId, text:null});
   }
 
   /* ── 헤더: 날짜와 주 이동 ──────────────────── */
@@ -988,6 +998,19 @@ button{cursor:pointer;background:none;border:none;padding:0;}
       nm.setAttribute("aria-label","프로젝트 이름");
       nm.oninput = () => { proj.name = nm.value; save(); renderGrid(); };
 
+      const cat = document.createElement("select");
+      cat.className = "proj-cat";
+      cat.dataset.cat = proj.cat || "none";
+      cat.title = "분류 — 이 프로젝트의 블럭이 이 색으로 표시돼요";
+      cat.setAttribute("aria-label","프로젝트 분류");
+      CATS.forEach(c => {
+        const o = document.createElement("option");
+        o.value = c.id; o.textContent = c.id === "none" ? "분류 선택" : c.name;
+        if((proj.cat || "none") === c.id) o.selected = true;
+        cat.append(o);
+      });
+      cat.onchange = () => { proj.cat = cat.value; commit(); };
+
       const cnt = el("span","proj-count");
       cnt.textContent = proj.tasks.filter(t => t.done).length + "/" + proj.tasks.length;
 
@@ -999,7 +1022,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
         commit();
       };
 
-      head.append(tw, nm, cnt, del);
+      head.append(tw, nm, cat, cnt, del);
       box.append(head);
 
       const ul = el("ul","tasks");
@@ -1303,7 +1326,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     if(item.taskId && !linked){ removeItem(item.id); return document.createDocumentFragment(); }
 
     const chip = el("div","chip");
-    chip.dataset.cat = item.cat || "none";
+    chip.dataset.cat = linked ? (linked.proj.cat || "none") : (item.cat || "none");
     chip.draggable = true;
 
     const top = el("div","chip-top");
@@ -1332,25 +1355,14 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     const pj = el("div","chip-proj");
     pj.textContent = linked ? (linked.proj.name || "프로젝트") : "직접 입력";
 
-    const sel = document.createElement("select");
-    sel.className = "chip-cat";
-    sel.setAttribute("aria-label","카테고리 선택");
-    CATS.forEach(cat => {
-      const o = document.createElement("option");
-      o.value = cat.id; o.textContent = cat.name;
-      if((item.cat || "none") === cat.id) o.selected = true;
-      sel.append(o);
-    });
-    sel.onchange = () => { item.cat = sel.value; chip.dataset.cat = sel.value; save(); };
-
-    /* 드롭다운·버튼을 쓰는 동안에는 드래그가 가로채지 않도록 */
-    [sel, x].forEach(node => {
+    /* 버튼을 누르는 동안에는 드래그가 가로채지 않도록 */
+    [x].forEach(node => {
       node.addEventListener("pointerdown", () => { chip.draggable = false; });
       node.addEventListener("pointerup", () => { setTimeout(function(){ chip.draggable = true; }, 0); });
       node.addEventListener("blur", () => { chip.draggable = true; });
     });
 
-    chip.append(top, pj, sel);
+    chip.append(top, pj);
 
     chip.addEventListener("dragstart", e => {
       chip.classList.add("dragging");
@@ -1587,7 +1599,7 @@ button{cursor:pointer;background:none;border:none;padding:0;}
     resizeTimer = setTimeout(onViewportChange, 150);
   });
   document.getElementById("add-project").onclick = () => {
-    state.projects.push({id:uid("p"), name:"", collapsed:false, tasks:[{id:uid("t"), text:"", done:false}]});
+    state.projects.push({id:uid("p"), name:"", cat:"none", collapsed:false, tasks:[{id:uid("t"), text:"", done:false}]});
     commit();
     requestAnimationFrame(() => {
       const inputs = dump.querySelectorAll(".proj-name");
